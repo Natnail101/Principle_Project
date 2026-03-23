@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Discovering How Image Role Shapes Alt Text</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar" role="banner">
+    <div class="brand">
+      <div class="brand-title">Discovering How Image Role Shapes Alt Text</div>
+      <div class="brand-subtitle">A discovery lesson on informative, decorative, functional, and complex images</div>
+    </div>
+
+    <div class="progress" aria-label="Progress">
+      <div class="progress-label" id="progressLabel">Step 1 of 16</div>
+      <div class="progress-bar" aria-hidden="true">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="container" role="main">
+
+    <!-- 1 -->
+    <section class="screen active" id="intro" aria-labelledby="introTitle">
+      <h1 id="introTitle">Introduction</h1>
+      <div class="card">
+        <p>
+          In this lesson, you will discover how the role of an image affects the way alt text should be written.
+        </p>
+        <p>
+          You will not be given the rule right away. Instead, you will compare examples, notice patterns, test your ideas, and then apply what you discovered to new situations.
+        </p>
+        <p class="muted">
+          <strong>Objective:</strong> Given an image in context, you will identify the image role and predict the appropriate alt text behavior with at least <strong>6 out of 9</strong> correct responses.
+        </p>
+      </div>
+
+      <div class="nav">
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="screen" id="pretraining" aria-labelledby="pretrainingTitle">
+      <h1 id="pretrainingTitle">Before You Begin</h1>
+      <div class="card">
+        <p>First, learn the four image roles used in this lesson.</p>
+        <p class="muted">
+          You will use these ideas to discover a pattern in the next steps.
+        </p>
+
+        <div class="grid two-col">
+          <div class="callout">
+            <h2 class="small-title">Informative</h2>
+            <p>Adds meaning or useful information to the page.</p>
+          </div>
+
+          <div class="callout">
+            <h2 class="small-title">Decorative</h2>
+            <p>Only adds visual style and does not add meaning.</p>
+          </div>
+
+          <div class="callout">
+            <h2 class="small-title">Functional</h2>
+            <p>Triggers an action, such as a button or link.</p>
+          </div>
+
+          <div class="callout">
+            <h2 class="small-title">Complex</h2>
+            <p>Contains a lot of information, like a chart, graph, map, or diagram.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>Key idea to watch for:</strong> Pay attention to what the image is doing in context.
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="screen" id="puzzle" aria-labelledby="puzzleTitle">
+      <h1 id="puzzleTitle">Puzzling Situation</h1>
+
+      <div class="audio-wrap card">
+        <label class="audio-label" for="agentAudio1">Narrated guidance</label>
+        <p class="muted">Listen first, then compare the two examples below.</p>
+        <audio id="agentAudio1" controls preload="metadata">
+          <source src="audio/principle-intro.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+
+        <details class="transcript-box">
+          <summary>View transcript</summary>
+          <p>
+            Take a close look at these two examples. Both show scenic sunset visuals, but they do not need the same kind of alt text.
+            Focus on what each image is doing on the page. One adds meaning. The other is only there for visual style.
+          </p>
+        </details>
+      </div>
+
+      <div class="grid two-col">
+        <div class="card">
+          <figure class="figure">
+            <img class="demo-img" src="images/principle%20images/mountain_cliff_sunset.png" alt="">
+            <figcaption class="caption">
+              Context: This image appears in an article about hiking overlooks and scenic viewpoints.
+            </figcaption>
+          </figure>
+          <div class="bad-good good">
+            <div class="label-badge">Alt text used</div>
+            <div class="example-text">"Person standing on a cliff overlooking the ocean at sunset"</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <figure class="figure">
+            <img class="demo-img" src="images/sunset_decorative_example.avif" alt="">
+            <figcaption class="caption">
+              Context: This image appears only as a full-width mood banner behind a page heading and adds no new information.
+            </figcaption>
+          </figure>
+          <div class="bad-good good">
+            <div class="label-badge">Alt text used</div>
+            <div class="example-text">""</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="prompt">
+          These two images both show a scenic view, but they follow different alt text rules. Why?
+        </p>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="screen" id="observe1" aria-labelledby="observe1Title">
+      <h1 id="observe1Title">Example Set 1</h1>
+      <div class="grid two-col">
+        <div class="card">
+          <figure class="figure">
+            <img class="demo-img" src="images/principle%20images/UW_Build_Env.png" alt="">
+            <figcaption class="caption">
+              Context: This image appears in a presentation about an urban planning proposal.
+            </figcaption>
+          </figure>
+          <div class="bad-good bad">
+            <div class="label-badge">Weak alt text</div>
+            <div class="example-text">"Woman pointing at a board with papers and people sitting in front"</div>
+          </div>
+          <div class="bad-good good">
+            <div class="label-badge">Stronger alt text</div>
+            <div class="example-text">"Presenter explaining a site plan to an audience"</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <figure class="figure">
+            <img class="demo-img" src="images/radiobutton.png" alt="">
+            <figcaption class="caption">
+              Context: This small circle graphic appears only as decoration beside a section heading.
+            </figcaption>
+          </figure>
+          <div class="bad-good bad">
+            <div class="label-badge">Weak alt text</div>
+            <div class="example-text">"Round button icon"</div>
+          </div>
+          <div class="bad-good good">
+            <div class="label-badge">Stronger alt text</div>
+            <div class="example-text">""</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="prompt">What changed between these two examples?</p>
+        <p class="muted">
+          Think about whether the image adds meaning or only adds visual style.
+        </p>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="screen" id="observe2" aria-labelledby="observe2Title">
+      <h1 id="observe2Title">Example Set 2</h1>
+
+      <div class="audio-wrap card">
+        <label class="audio-label" for="agentAudio2">Narrated guidance</label>
+        <p class="muted">Pay attention to how the wording changes when the image role changes.</p>
+        <audio id="agentAudio2" controls preload="metadata">
+          <source src="audio/principle-examples.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+
+        <details class="transcript-box">
+          <summary>View transcript</summary>
+          <p>
+            Now compare a functional image and a complex image. One should tell the user what action will happen.
+            The other should summarize the main point. Notice that neither one needs a description of every visible detail.
+          </p>
+        </details>
+      </div>
+
+      <div class="grid two-col">
+        <div class="card">
+          <figure class="figure">
+            <img class="demo-img smaller" src="images/principle%20images/cart_icons.png" alt="">
+            <figcaption class="caption">
+              Context: This cart icon appears in the site header and opens the shopping cart.
+            </figcaption>
+          </figure>
+          <div class="bad-good bad">
+            <div class="label-badge">Weak alt text</div>
+            <div class="example-text">"Shopping cart icon with a red circle showing one item"</div>
+          </div>
+          <div class="bad-good good">
+            <div class="label-badge">Stronger alt text</div>
+            <div class="example-text">"View cart"</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <figure class="figure">
+            <img class="demo-img demo-chart-large" src="images/principle%20images/nvidia-quarterly-revenue-segment.png" alt="">
+            <figcaption class="caption">
+              Context: This chart appears in a report discussing NVIDIA’s revenue growth across market segments.
+            </figcaption>
+          </figure>
+          <div class="bad-good bad">
+            <div class="label-badge">Weak alt text</div>
+            <div class="example-text">"Bar chart with many colored sections, labels, and dates"</div>
+          </div>
+          <div class="bad-good good">
+            <div class="label-badge">Stronger alt text</div>
+            <div class="example-text">"NVIDIA revenue increased sharply, with most growth coming from the data center and AI segment"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="prompt">
+          How is the better alt text different for the cart icon and the chart?
+        </p>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="screen" id="record" aria-labelledby="recordTitle">
+      <h1 id="recordTitle">Track the Pattern</h1>
+      <div class="card">
+        <p class="prompt">Fill in which kind of alt text behavior matches each image role.</p>
+
+        <div class="order-grid">
+          <div class="order-row">
+            <label for="role1">Informative image</label>
+            <select id="role1">
+              <option value="">Select one</option>
+              <option value="describe-meaning">Describe the meaning</option>
+              <option value="empty">Use empty alt text</option>
+              <option value="describe-action">Describe the action or purpose</option>
+              <option value="summarize-main-point">Summarize the main point</option>
+            </select>
+          </div>
+
+          <div class="order-row">
+            <label for="role2">Decorative image</label>
+            <select id="role2">
+              <option value="">Select one</option>
+              <option value="describe-meaning">Describe the meaning</option>
+              <option value="empty">Use empty alt text</option>
+              <option value="describe-action">Describe the action or purpose</option>
+              <option value="summarize-main-point">Summarize the main point</option>
+            </select>
+          </div>
+
+          <div class="order-row">
+            <label for="role3">Functional image</label>
+            <select id="role3">
+              <option value="">Select one</option>
+              <option value="describe-meaning">Describe the meaning</option>
+              <option value="empty">Use empty alt text</option>
+              <option value="describe-action">Describe the action or purpose</option>
+              <option value="summarize-main-point">Summarize the main point</option>
+            </select>
+          </div>
+
+          <div class="order-row">
+            <label for="role4">Complex image</label>
+            <select id="role4">
+              <option value="">Select one</option>
+              <option value="describe-meaning">Describe the meaning</option>
+              <option value="empty">Use empty alt text</option>
+              <option value="describe-action">Describe the action or purpose</option>
+              <option value="summarize-main-point">Summarize the main point</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="nav left">
+          <button class="btn secondary" type="button" id="checkRecord">Check Pattern</button>
+          <button class="btn subtle" type="button" id="resetRecord">Reset</button>
+        </div>
+
+        <div id="feedbackRecord" class="feedback" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="screen" id="hypothesis" aria-labelledby="hypothesisTitle">
+      <h1 id="hypothesisTitle">State Your Hypothesis</h1>
+
+      <div class="audio-wrap card">
+        <label class="audio-label" for="agentAudio3">Narrated guidance</label>
+        <p class="muted">Try to describe the rule in your own words before moving on.</p>
+        <audio id="agentAudio3" controls preload="metadata">
+          <source src="audio/principle-hypothesis.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+
+        <details class="transcript-box">
+          <summary>View transcript</summary>
+          <p>
+            You have now seen several examples. Try to state the pattern in one or two sentences.
+            Focus on the relationship between the role of the image and the kind of alt text it needs.
+          </p>
+        </details>
+      </div>
+
+      <div class="card">
+        <p class="prompt">
+          Based on the examples, what pattern do you think connects image role and alt text?
+        </p>
+
+        <div class="field">
+          <label class="label" for="hypothesisText">Your hypothesis</label>
+          <textarea id="hypothesisText" rows="5" placeholder="Write one or two full sentences..."></textarea>
+          <div class="microhint">
+            Use your own words. Focus on what the image is doing on the page.
+          </div>
+        </div>
+
+        <div class="nav left">
+          <button class="btn secondary" type="button" id="checkHypothesis">Check Hypothesis</button>
+          <button class="btn subtle" type="button" id="resetHypothesis">Reset</button>
+        </div>
+
+        <div id="feedbackHypothesis" class="feedback" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="screen" id="checkInformative" aria-labelledby="checkInformativeTitle">
+      <h1 id="checkInformativeTitle">Check 1: Informative Image</h1>
+      <div class="card">
+        <img class="practice-img" src="images/principle%20images/rainbow_ocean_wave.png" alt="">
+        <p class="prompt">
+          Context: This image appears in an article about unusual ocean photography.
+        </p>
+
+        <fieldset class="fieldset">
+          <legend class="legend">Which alt text works best?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="informativeCheck" value="a"> Blue wave with bright rainbow colors and water spray</label>
+            <label class="choice"><input type="radio" name="informativeCheck" value="b"> Ocean wave reflecting rainbow colors in the sunlight</label>
+            <label class="choice"><input type="radio" name="informativeCheck" value="c"> ""</label>
+            <label class="choice"><input type="radio" name="informativeCheck" value="d"> Pretty wave picture</label>
+          </div>
+        </fieldset>
+
+        <div class="nav left">
+          <button class="btn secondary" type="button" id="checkInformativeBtn">Check Answer</button>
+          <button class="btn subtle" type="button" id="resetInformativeBtn">Reset</button>
+        </div>
+
+        <div id="feedbackInformative" class="feedback" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="screen" id="checkDecorative" aria-labelledby="checkDecorativeTitle">
+      <h1 id="checkDecorativeTitle">Check 2: Decorative Image</h1>
+      <div class="card">
+        <img class="practice-img small-decorative" src="images/radiobutton.png" alt="">
+        <p class="prompt">
+          Context: This image is used only for visual styling next to a heading.
+        </p>
+
+        <fieldset class="fieldset">
+          <legend class="legend">Which alt text works best?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="decorativeCheck" value="a"> Round icon with gray border</label>
+            <label class="choice"><input type="radio" name="decorativeCheck" value="b"> ""</label>
+            <label class="choice"><input type="radio" name="decorativeCheck" value="c"> Button symbol</label>
+            <label class="choice"><input type="radio" name="decorativeCheck" value="d"> Small circle decoration</label>
+          </div>
+        </fieldset>
+
+        <div class="nav left">
+          <button class="btn secondary" type="button" id="checkDecorativeBtn">Check Answer</button>
+          <button class="btn subtle" type="button" id="resetDecorativeBtn">Reset</button>
+        </div>
+
+        <div id="feedbackDecorative" class="feedback" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="screen" id="checkFunctional" aria-labelledby="checkFunctionalTitle">
+      <h1 id="checkFunctionalTitle">Check 3: Functional Image</h1>
+      <div class="card">
+        <img class="practice-img small-icon" src="images/principle%20images/cart_icons.png" alt="">
+        <p class="prompt">
+          Context: This icon opens the shopping cart.
+        </p>
+
+        <div class="field">
+          <label class="label" for="functionalAnswer">Write alt text</label>
+          <textarea id="functionalAnswer" rows="4" placeholder='Example format: "..."'></textarea>
+          <div class="microhint">
+            Focus on the action or purpose, not the shape or colors.
+          </div>
+        </div>
+
+        <div class="nav left">
+          <button class="btn secondary" type="button" id="checkFunctionalBtn">Check Answer</button>
+          <button class="btn subtle" type="button" id="resetFunctionalBtn">Reset</button>
+        </div>
+
+        <div id="feedbackFunctional" class="feedback" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="screen" id="checkComplex" aria-labelledby="checkComplexTitle">
+      <h1 id="checkComplexTitle">Check 4: Complex Image</h1>
+      <div class="card">
+        <img class="practice-img chart-practice" src="images/principle%20images/nvidia-quarterly-revenue-segment.png" alt="">
+        <p class="prompt">
+          Context: This chart appears in a report about NVIDIA revenue growth across business segments.
+        </p>
+
+        <div class="field">
+          <label class="label" for="complexAnswer">Write alt text</label>
+          <textarea id="complexAnswer" rows="5" placeholder='Write one sentence that summarizes the main takeaway.'></textarea>
+          <div class="microhint">
+            Summarize the main point. Do not list every visible detail.
+          </div>
+        </div>
+
+        <div class="nav left">
+          <button class="btn secondary" type="button" id="checkComplexBtn">Check Answer</button>
+          <button class="btn subtle" type="button" id="resetComplexBtn">Reset</button>
+        </div>
+
+        <div id="feedbackComplex" class="feedback" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="screen" id="practiceTransition" aria-labelledby="practiceTransitionTitle">
+      <h1 id="practiceTransitionTitle">Test the Pattern</h1>
+      <div class="audio-wrap card">
+        <label class="audio-label" for="agentAudio4">Narrated guidance</label>
+        <p class="muted">Now test your idea with new situations.</p>
+        <audio id="agentAudio4" controls preload="metadata">
+          <source src="audio/principle-practice.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+
+        <details class="transcript-box">
+          <summary>View transcript</summary>
+          <p>
+            You have already compared examples and formed a hypothesis. Now apply that pattern to new situations.
+            Ask yourself what the image is doing in context. If the role changes, the alt text behavior should change too.
+          </p>
+        </details>
+      </div>
+
+      <div class="card">
+        <p class="prompt">
+          In the next steps, try to use the same rule on unfamiliar examples instead of relying on memory from earlier screens.
+        </p>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="screen" id="practice1" aria-labelledby="practice1Title">
+      <h1 id="practice1Title">Practice 1: Identify the Role</h1>
+      <div class="card">
+        <img class="practice-img" src="images/principle%20images/RIT_enrollment_graph.png" alt="">
+        <p class="prompt">
+          Context: This image appears in a report showing how enrollment changed over time.
+        </p>
+
+        <fieldset class="fieldset">
+          <legend class="legend">What image role best fits this example?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="practice1" value="a"> Decorative</label>
+            <label class="choice"><input type="radio" name="practice1" value="b"> Functional</label>
+            <label class="choice"><input type="radio" name="practice1" value="c"> Complex</label>
+            <label class="choice"><input type="radio" name="practice1" value="d"> Informative</label>
+          </div>
+        </fieldset>
+
+        <div class="nav left">
+          <button class="btn secondary" type="button" id="checkPractice1Btn">Check Answer</button>
+          <button class="btn subtle" type="button" id="resetPractice1Btn">Reset</button>
+        </div>
+
+        <div id="feedbackPractice1" class="feedback" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="screen" id="practice2" aria-labelledby="practice2Title">
+      <h1 id="practice2Title">Practice 2: Choose the Best Alt</h1>
+      <div class="card">
+        <img class="practice-img" src="images/principle%20images/UW_Build_Env.png" alt="">
+        <p class="prompt">
+          Context: This image appears in a presentation about a planning proposal.
+        </p>
+
+        <fieldset class="fieldset">
+          <legend class="legend">Which alt text is best?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="practice2" value="a"> Woman standing near a board with papers</label>
+            <label class="choice"><input type="radio" name="practice2" value="b"> Presenter explaining a site plan to an audience</label>
+            <label class="choice"><input type="radio" name="practice2" value="c"> ""</label>
+            <label class="choice"><input type="radio" name="practice2" value="d"> Meeting photo</label>
+          </div>
+        </fieldset>
+
+        <div class="nav left">
+          <button class="btn secondary" type="button" id="checkPractice2Btn">Check Answer</button>
+          <button class="btn subtle" type="button" id="resetPractice2Btn">Reset</button>
+        </div>
+
+        <div id="feedbackPractice2" class="feedback" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="screen" id="finalChallenge" aria-labelledby="finalChallengeTitle">
+      <h1 id="finalChallengeTitle">Final Challenge</h1>
+      <div class="card">
+        <img class="practice-img small-icon" src="images/principle%20images/email_icon.png" alt="">
+        <p class="prompt">
+          Context: This image appears in a website header. Selecting it opens the contact form.
+        </p>
+
+        <div class="field">
+          <label class="label" for="finalAnswer">Your alt text</label>
+          <textarea id="finalAnswer" rows="5" placeholder="Write one full sentence..."></textarea>
+          <div class="microhint">
+            Focus on what the image does in context. If the role changes, the alt text behavior should change too.
+          </div>
+        </div>
+
+        <div class="nav left">
+          <button class="btn secondary" type="button" id="checkFinalBtn">Check Answer</button>
+          <button class="btn subtle" type="button" id="resetFinalBtn">Reset</button>
+        </div>
+
+        <div id="feedbackFinal" class="feedback" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost back" type="button">Back</button>
+        <button class="btn primary next" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="screen" id="completion" aria-labelledby="completionTitle">
+      <h1 id="completionTitle">Lesson Complete</h1>
+      <div class="card">
+        <p>
+          You have reached the end of the lesson.
+        </p>
+        <p>
+          <strong>When the role of an image changes, the alt text behavior should change.</strong>
+        </p>
+        <p class="muted">
+          The image role is the cause. The alt text decision is the result.
+        </p>
+
+        <div class="grid two-col">
+          <div class="callout">
+            <h2 class="small-title">Informative</h2>
+            <p>Describe the meaning.</p>
+          </div>
+          <div class="callout">
+            <h2 class="small-title">Decorative</h2>
+            <p>Use empty alt text.</p>
+          </div>
+          <div class="callout">
+            <h2 class="small-title">Functional</h2>
+            <p>Describe the action or purpose.</p>
+          </div>
+          <div class="callout">
+            <h2 class="small-title">Complex</h2>
+            <p>Summarize the main point.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>Your score:</strong> <span id="finalScore">0</span> out of 9 checked items correct
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" type="button" id="restartLesson">Restart Lesson</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
