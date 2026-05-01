@@ -3,7 +3,6 @@ const nextButtons = document.querySelectorAll(".next");
 const backButtons = document.querySelectorAll(".back");
 const progressLabel = document.getElementById("progressLabel");
 const progressFill = document.getElementById("progressFill");
-const allAudios = document.querySelectorAll("audio");
 
 let currentScreen = 0;
 let score = 0;
@@ -20,17 +19,8 @@ const scoredItems = {
   final: false
 };
 
-function stopAllAudio() {
-  allAudios.forEach(audio => {
-    audio.pause();
-    audio.currentTime = 0;
-  });
-}
-
 function showScreen(index) {
   if (index < 0 || index >= screens.length) return;
-
-  stopAllAudio();
 
   screens.forEach((screen, i) => {
     screen.classList.toggle("active", i === index);
@@ -39,6 +29,11 @@ function showScreen(index) {
   currentScreen = index;
   updateProgress();
   window.scrollTo({ top: 0, behavior: "smooth" });
+
+
+  if (index === screens.length - 1) {
+    updateScore();
+}
 }
 
 function updateProgress() {
@@ -49,22 +44,18 @@ function updateProgress() {
 }
 
 nextButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    showScreen(currentScreen + 1);
-  });
+  button.addEventListener("click", () => showScreen(currentScreen + 1));
 });
 
 backButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    showScreen(currentScreen - 1);
-  });
+  button.addEventListener("click", () => showScreen(currentScreen - 1));
 });
 
 function awardPoint(key) {
   if (!scoredItems[key]) {
     scoredItems[key] = true;
     score += 1;
-    updateFinalScore();
+    updateScore();
   }
 }
 
@@ -72,32 +63,48 @@ function removePoint(key) {
   if (scoredItems[key]) {
     scoredItems[key] = false;
     score -= 1;
-    updateFinalScore();
+    updateScore();
   }
 }
 
-function updateFinalScore() {
-  const scoreSpan = document.getElementById("finalScore");
-  if (scoreSpan) {
-    scoreSpan.textContent = score;
+function updateScore() {
+  const finalScore = document.getElementById("finalScore");
+  const passMessage = document.getElementById("passMessage");
+
+  if (finalScore) {
+    finalScore.textContent = score;
+  }
+
+  if (passMessage) {
+    if (score >= 7) {
+      passMessage.textContent = "You met the goal. You correctly applied the principle.";
+      passMessage.className = "feedback good";
+    } else {
+      passMessage.textContent = "You have not met the goal yet. Review the pattern and try again.";
+      passMessage.className = "feedback bad";
+    }
   }
 }
 
-function setFeedback(elementId, message, isCorrect) {
-  const el = document.getElementById(elementId);
+function setFeedback(id, message, type) {
+  const el = document.getElementById(id);
   el.textContent = message;
   el.classList.remove("good", "bad", "warn");
-  el.classList.add(isCorrect ? "good" : "bad");
+  el.classList.add(type);
 }
 
-function clearFeedback(elementId) {
-  const el = document.getElementById(elementId);
+function clearFeedback(id) {
+  const el = document.getElementById(id);
   el.textContent = "";
   el.classList.remove("good", "bad", "warn");
 }
 
 function normalizeText(text) {
-  return text.toLowerCase().trim();
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s]/g, " ")
+    .replace(/\s+/g, " ");
 }
 
 function containsAny(text, keywords) {
@@ -125,7 +132,7 @@ document.getElementById("checkRecord").addEventListener("click", () => {
   const r4 = document.getElementById("role4").value;
 
   if (!r1 || !r2 || !r3 || !r4) {
-    setFeedback("feedbackRecord", "Complete all four selections first.", false);
+    setFeedback("feedbackRecord", "Complete all four selections first.", "bad");
     removePoint("record");
     return;
   }
@@ -137,10 +144,10 @@ document.getElementById("checkRecord").addEventListener("click", () => {
     r4 === "summarize-main-point";
 
   if (correct) {
-    setFeedback("feedbackRecord", "Good. You matched each image role to the correct alt text behavior.", true);
+    setFeedback("feedbackRecord", "Correct. You matched each image role to the alt text behavior that fits it best.", "good");
     awardPoint("record");
   } else {
-    setFeedback("feedbackRecord", "Not quite. Recheck the cause-and-effect pattern: when the image role changes, the alt text behavior should change too.", false);
+    setFeedback("feedbackRecord", "Not quite. Recheck the relationship between the role of the image and the kind of alt text it needs.", "bad");
     removePoint("record");
   }
 });
@@ -159,21 +166,41 @@ document.getElementById("checkHypothesis").addEventListener("click", () => {
   const answer = normalizeText(document.getElementById("hypothesisText").value);
 
   if (!answer) {
-    setFeedback("feedbackHypothesis", "Write your hypothesis first.", false);
+    setFeedback("feedbackHypothesis", "Write your hypothesis first.", "bad");
     removePoint("hypothesis");
     return;
   }
 
-  const hasRoleIdea = containsAny(answer, ["role", "purpose", "doing", "context"]);
-  const hasAltIdea = containsAny(answer, ["alt", "alt text"]);
-  const hasBehaviorIdea = containsAny(answer, ["describe", "empty", "summarize", "action", "meaning", "change"]);
-  const hasCauseEffect = containsAny(answer, ["when", "if"]) && containsAny(answer, ["changes", "change"]);
+  const roleIdea = containsAny(answer, [
+    "role",
+    "purpose",
+    "job",
+    "context",
+    "doing",
+    "function"
+  ]);
 
-  if (hasRoleIdea && hasAltIdea && hasBehaviorIdea && hasCauseEffect) {
-    setFeedback("feedbackHypothesis", "Strong hypothesis. You connected the cause-and-effect pattern: when image role changes, alt text behavior changes.", true);
+  const altIdea = containsAny(answer, [
+    "alt",
+    "alt text",
+    "description"
+  ]);
+
+  const changeIdea = containsAny(answer, [
+    "change",
+    "changes",
+    "depends",
+    "depend",
+    "match",
+    "different",
+    "based on"
+  ]);
+
+  if (roleIdea && altIdea && changeIdea) {
+    setFeedback("feedbackHypothesis", "Strong hypothesis. You explained that the image’s role in context affects the alt text decision.", "good");
     awardPoint("hypothesis");
   } else {
-    setFeedback("feedbackHypothesis", "You are close. Try stating that when the role of the image changes, the alt text should change as well.", false);
+    setFeedback("feedbackHypothesis", "You are close. Try saying that the image’s role or purpose changes what the alt text should do.", "bad");
     removePoint("hypothesis");
   }
 });
@@ -184,21 +211,21 @@ document.getElementById("resetHypothesis").addEventListener("click", () => {
   removePoint("hypothesis");
 });
 
-/* Check 1 Informative */
+/* Informative */
 document.getElementById("checkInformativeBtn").addEventListener("click", () => {
   const selected = document.querySelector('input[name="informativeCheck"]:checked');
 
   if (!selected) {
-    setFeedback("feedbackInformative", "Select an answer first.", false);
+    setFeedback("feedbackInformative", "Select an answer first.", "bad");
     removePoint("informative");
     return;
   }
 
   if (selected.value === "b") {
-    setFeedback("feedbackInformative", "Correct. This works because the image is informative, so the alt text should communicate the meaning.", true);
+    setFeedback("feedbackInformative", "Correct. The best answer communicates useful meaning, not just appearance.", "good");
     awardPoint("informative");
   } else {
-    setFeedback("feedbackInformative", "Not quite. Because the role here is informative, the alt text should communicate meaning, not decoration or vagueness.", false);
+    setFeedback("feedbackInformative", "Not quite. Pick the answer that gives useful meaning instead of a vague label or empty alt text.", "bad");
     removePoint("informative");
   }
 });
@@ -209,21 +236,21 @@ document.getElementById("resetInformativeBtn").addEventListener("click", () => {
   removePoint("informative");
 });
 
-/* Check 2 Decorative */
+/* Decorative */
 document.getElementById("checkDecorativeBtn").addEventListener("click", () => {
   const selected = document.querySelector('input[name="decorativeCheck"]:checked');
 
   if (!selected) {
-    setFeedback("feedbackDecorative", "Select an answer first.", false);
+    setFeedback("feedbackDecorative", "Select an answer first.", "bad");
     removePoint("decorative");
     return;
   }
 
   if (selected.value === "b") {
-    setFeedback("feedbackDecorative", "Correct. Because the image is decorative and adds no meaning, it should use empty alt text.", true);
+    setFeedback("feedbackDecorative", "Correct. When the image is only visual styling, empty alt text is the best choice.", "good");
     awardPoint("decorative");
   } else {
-    setFeedback("feedbackDecorative", "Not quite. Because this image is decorative, the alt text behavior should change to empty alt text.", false);
+    setFeedback("feedbackDecorative", "Not quite. If the image does not add meaning, it should not be described.", "bad");
     removePoint("decorative");
   }
 });
@@ -234,27 +261,43 @@ document.getElementById("resetDecorativeBtn").addEventListener("click", () => {
   removePoint("decorative");
 });
 
-/* Check 3 Functional */
+/* Functional */
 document.getElementById("checkFunctionalBtn").addEventListener("click", () => {
   const answer = normalizeText(document.getElementById("functionalAnswer").value);
 
   if (!answer) {
-    setFeedback("feedbackFunctional", "Write an answer first.", false);
+    setFeedback("feedbackFunctional", "Write an answer first.", "bad");
     removePoint("functional");
     return;
   }
 
-  const actionWords = ["view cart", "open cart", "shopping cart", "cart"];
-  const visualWordsOnly = ["red", "circle", "icon", "small", "symbol"];
+  const actionWords = [
+    "view cart",
+    "open cart",
+    "shopping cart",
+    "cart",
+    "go to cart",
+    "see cart",
+    "show cart",
+    "open shopping cart"
+  ];
+
+  const visualOnlyWords = [
+    "icon",
+    "red circle",
+    "small",
+    "symbol",
+    "graphic"
+  ];
 
   const hasAction = containsAny(answer, actionWords);
-  const mostlyVisual = containsAny(answer, visualWordsOnly) && !hasAction;
+  const visualOnly = containsAny(answer, visualOnlyWords) && !hasAction;
 
-  if (hasAction && !mostlyVisual) {
-    setFeedback("feedbackFunctional", "Good. Because the image is functional, the alt text should describe the action or purpose.", true);
+  if (hasAction && !visualOnly) {
+    setFeedback("feedbackFunctional", "Correct. Your answer focuses on what the icon lets the user do.", "good");
     awardPoint("functional");
   } else {
-    setFeedback("feedbackFunctional", "Try again. Because the role is functional, the alt text behavior should change to describing the action or purpose.", false);
+    setFeedback("feedbackFunctional", "Try again. Focus on the action or purpose, not the way the icon looks.", "bad");
     removePoint("functional");
   }
 });
@@ -265,27 +308,78 @@ document.getElementById("resetFunctionalBtn").addEventListener("click", () => {
   removePoint("functional");
 });
 
-/* Check 4 Complex */
+/* Complex */
 document.getElementById("checkComplexBtn").addEventListener("click", () => {
   const answer = normalizeText(document.getElementById("complexAnswer").value);
 
   if (!answer) {
-    setFeedback("feedbackComplex", "Write an answer first.", false);
+    setFeedback("feedbackComplex", "Write an answer first.", "bad");
     removePoint("complex");
     return;
   }
 
-  const trendWords = ["increase", "increased", "growth", "grew", "revenue", "data center", "ai"];
-  const detailDumpWords = ["blue", "orange", "green", "labels", "many bars", "dates"];
+  const chartWords = [
+    "chart",
+    "graph",
+    "revenue",
+    "sales",
+    "earnings",
+    "income"
+  ];
 
-  const hasTrend = containsAny(answer, trendWords);
-  const detailOnly = containsAny(answer, detailDumpWords) && !hasTrend;
+  const trendWords = [
+    "increase",
+    "increases",
+    "increased",
+    "grew",
+    "growth",
+    "rises",
+    "rose",
+    "upward",
+    "climbs",
+    "higher",
+    "highest",
+    "trend",
+    "over time",
+    "increasing",
+    "grew",
+    "growth"
+  ];
 
-  if (hasTrend && !detailOnly) {
-    setFeedback("feedbackComplex", "Good. Because the image is complex, the alt text should summarize the main takeaway.", true);
+  const nvidiaSpecificWords = [
+    "nvidia",
+    "ai",
+    "data center",
+    "segment",
+    "segments",
+    "market"
+  ];
+
+  const detailDumpWords = [
+    "green bars",
+    "red bars",
+    "blue bars",
+    "dates",
+    "labels",
+    "axis",
+    "x axis",
+    "y axis",
+    "legend",
+    "july 1",
+    "jan 1",
+    "market segment"
+  ];
+
+  const hasChartIdea = containsAny(answer, chartWords);
+  const hasTrendIdea = containsAny(answer, trendWords);
+  const hasUsefulFocus = containsAny(answer, nvidiaSpecificWords) || answer.length > 70;
+  const detailOnly = containsAny(answer, detailDumpWords) && !hasTrendIdea;
+
+  if (hasChartIdea && hasTrendIdea && hasUsefulFocus && !detailOnly) {
+    setFeedback("feedbackComplex", "Good. You summarized the main takeaway instead of listing visual details.", "good");
     awardPoint("complex");
   } else {
-    setFeedback("feedbackComplex", "Try again. Because the role is complex, the alt text behavior should change to summarizing the main point rather than listing details.", false);
+    setFeedback("feedbackComplex", "Try again. Focus on the overall trend or the main part that stands out most.", "bad");
     removePoint("complex");
   }
 });
@@ -301,16 +395,16 @@ document.getElementById("checkPractice1Btn").addEventListener("click", () => {
   const selected = document.querySelector('input[name="practice1"]:checked');
 
   if (!selected) {
-    setFeedback("feedbackPractice1", "Select an answer first.", false);
+    setFeedback("feedbackPractice1", "Select an answer first.", "bad");
     removePoint("practice1");
     return;
   }
 
   if (selected.value === "c") {
-    setFeedback("feedbackPractice1", "Correct. Because the graph contains substantial information and trends, its role is complex.", true);
+    setFeedback("feedbackPractice1", "Correct. This image needs a summary of its main point rather than a simple label.", "good");
     awardPoint("practice1");
   } else {
-    setFeedback("feedbackPractice1", "Not quite. Think about the amount of information the image carries. That role affects the alt text behavior.", false);
+    setFeedback("feedbackPractice1", "Not quite. Think about how much information the image contains and whether it needs summarizing.", "bad");
     removePoint("practice1");
   }
 });
@@ -326,16 +420,16 @@ document.getElementById("checkPractice2Btn").addEventListener("click", () => {
   const selected = document.querySelector('input[name="practice2"]:checked');
 
   if (!selected) {
-    setFeedback("feedbackPractice2", "Select an answer first.", false);
+    setFeedback("feedbackPractice2", "Select an answer first.", "bad");
     removePoint("practice2");
     return;
   }
 
   if (selected.value === "b") {
-    setFeedback("feedbackPractice2", "Correct. Because the image is informative in this context, the best alt text communicates the meaning.", true);
+    setFeedback("feedbackPractice2", "Correct. The strongest answer explains the meaning of the image in context.", "good");
     awardPoint("practice2");
   } else {
-    setFeedback("feedbackPractice2", "Not quite. Look for the answer that matches the image’s role in context. Here, that means communicating meaning rather than appearance only.", false);
+    setFeedback("feedbackPractice2", "Not quite. Pick the answer that communicates useful meaning, not just visible objects.", "bad");
     removePoint("practice2");
   }
 });
@@ -346,27 +440,46 @@ document.getElementById("resetPractice2Btn").addEventListener("click", () => {
   removePoint("practice2");
 });
 
-/* Final Challenge */
+/* Final */
 document.getElementById("checkFinalBtn").addEventListener("click", () => {
   const answer = normalizeText(document.getElementById("finalAnswer").value);
 
   if (!answer) {
-    setFeedback("feedbackFinal", "Write your alt text first.", false);
+    setFeedback("feedbackFinal", "Write an answer first.", "bad");
     removePoint("final");
     return;
   }
 
-  const strongKeywords = ["contact", "open contact form", "contact form", "email", "message", "contact us"];
-  const weakVisualOnly = ["icon", "envelope", "small", "symbol"];
+  const actionWords = [
+    "view cart",
+    "open cart",
+    "shopping cart",
+    "cart",
+    "bag",
+    "shopping bag",
+    "open bag",
+    "view bag",
+    "online shopping"
+  ];
 
-  const strong = containsAny(answer, strongKeywords);
-  const weakOnly = containsAny(answer, weakVisualOnly) && !strong;
+  const visualOnlyWords = [
+    "bag icon",
+    "cart icon",
+    "small icon",
+    "button image",
+    "toolbar icon",
+    "selecting",
+    "Select"
+  ];
 
-  if (strong && !weakOnly) {
-    setFeedback("feedbackFinal", "Strong answer. You recognized that this is a functional image, so the alt text should describe the action or purpose.", true);
+  const hasAction = containsAny(answer, actionWords);
+  const visualOnly = containsAny(answer, visualOnlyWords) && !hasAction;
+
+  if (hasAction && !visualOnly) {
+    setFeedback("feedbackFinal", "Correct. Your answer focuses on what the navigation icon does.", "good");
     awardPoint("final");
   } else {
-    setFeedback("feedbackFinal", "Revise it. Ask what the image does in context. Because this role is functional, the alt text should describe the action or purpose, such as opening the contact form.", false);
+    setFeedback("feedbackFinal", "Try again. Focus on the action or purpose of the bag icon.", "bad");
     removePoint("final");
   }
 });
@@ -377,28 +490,28 @@ document.getElementById("resetFinalBtn").addEventListener("click", () => {
   removePoint("final");
 });
 
+/* Restart */
 document.getElementById("restartLesson").addEventListener("click", () => {
-  stopAllAudio();
-
-  score = 0;
   Object.keys(scoredItems).forEach(key => {
     scoredItems[key] = false;
   });
-  updateFinalScore();
+
+  score = 0;
+  updateScore();
 
   resetSelect("role1");
   resetSelect("role2");
   resetSelect("role3");
   resetSelect("role4");
-  resetTextarea("hypothesisText");
-  resetTextarea("functionalAnswer");
-  resetTextarea("complexAnswer");
-  resetTextarea("finalAnswer");
 
+  resetTextarea("hypothesisText");
   resetRadioGroup("informativeCheck");
   resetRadioGroup("decorativeCheck");
+  resetTextarea("functionalAnswer");
+  resetTextarea("complexAnswer");
   resetRadioGroup("practice1");
   resetRadioGroup("practice2");
+  resetTextarea("finalAnswer");
 
   [
     "feedbackRecord",
@@ -416,4 +529,4 @@ document.getElementById("restartLesson").addEventListener("click", () => {
 });
 
 updateProgress();
-updateFinalScore();
+updateScore();
